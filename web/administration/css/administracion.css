@@ -1,0 +1,270 @@
+/*
+ * Estilos propios de las pantallas de Administración.
+ *
+ * Solo usa las variables de la base común, sin colores fijos, para que siga
+ * funcionando el modo oscuro. Las pantallas enlazan únicamente este archivo.
+ */
+@import url("../../common/css/style.css");
+
+/* Clases como .boton definen display y le ganarían al atributo hidden. */
+[hidden] {
+  display: none !important;
+}
+
+/* Aviso de error o de éxito */
+.aviso {
+  margin: 1.5rem 0 0;
+  padding: 0.75rem 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-left-width: 5px;
+  border-radius: 8px;
+  /* Permite mostrar varios errores, uno por línea. */
+  white-space: pre-line;
+}
+
+/* Sin un color de error en la base, se distingue por el peso y el borde. */
+.aviso-error {
+  border-left-color: var(--texto);
+  font-weight: 600;
+}
+
+.aviso-exito {
+  border-left-color: var(--acento);
+}
+
+/* Datos de solicitud, en pares etiqueta y valor */
+.datos {
+  display: grid;
+  grid-template-columns: minmax(8rem, max-content) 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0;
+}
+
+.datos dt {
+  color: var(--texto-suave);
+}
+
+.datos dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+/* Formularios */
+.formulario {
+  display: grid;
+  gap: 1rem;
+}
+
+.campo {
+  display: grid;
+  gap: 0.3rem;
+  /* Sin esto, un input ancho puede estirar la grilla en pantallas chicas. */
+  min-width: 0;
+}
+
+.campo label {
+  font-weight: 600;
+}
+
+.campo input,
+.campo textarea {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  background: var(--fondo);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  font: inherit;
+  /* Hace que el calendario y sus íconos sigan el modo oscuro del sistema. */
+  color-scheme: light dark;
+}
+
+.campo textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.campo input:focus-visible,
+.campo textarea:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 1px;
+}
+
+/* Campo con error: la sombra engrosa el borde sin mover el resto del formulario. */
+.campo input[aria-invalid="true"],
+.campo textarea[aria-invalid="true"] {
+  border-color: var(--texto);
+  box-shadow: 0 0 0 1px var(--texto);
+}
+
+.campos-en-fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Fila de una lista editable: el campo ocupa el ancho que deja el botón. */
+.fila-nombre {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/*
+ * Botones y pie de página. La base común ya no trae .boton, .boton-secundario
+ * ni .pie (la PR #47 los reemplazó por .boton-de-accion), así que se definen
+ * acá con los mismos valores que tenían, para que las pantallas no cambien.
+ */
+.boton {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--acento);
+  background: var(--acento);
+  color: var(--acento-texto);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.boton:hover {
+  opacity: 0.9;
+}
+
+/* Variante sin relleno: mantiene el borde de .boton y usa el acento como texto. */
+.boton-secundario {
+  background: transparent;
+  color: var(--acento);
+}
+
+.pie {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+/* En la grilla del formulario, el botón conserva su ancho, como en el resto del sitio. */
+.formulario .boton {
+  justify-self: start;
+}
+
+/* El azul por defecto del navegador no se lee en modo oscuro. */
+.pie a {
+  color: var(--acento);
+}
+
+/* .boton nació para enlaces: en un button hay que heredar la tipografía. */
+button.boton {
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.boton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Vista previa del PDF: ocupa el ancho del bloque, así no hay scroll horizontal en el celular. */
+.vista-previa-pdf {
+  display: block;
+  width: 100%;
+  height: min(75vh, 48rem);
+  min-height: 20rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: var(--superficie);
+}
+
+/* Botones de descargar y abrir: pasan a otra línea si no entran. */
+.acciones-pdf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/*
+ * Tarjeta del menú cuya pantalla todavía no existe. No lleva enlace y lo dice con
+ * texto (.estado-tarjeta); el borde punteado y el fondo de la página la separan de
+ * las activas sin bajar la opacidad, para que el texto conserve el contraste.
+ */
+.tarjeta-deshabilitada {
+  background: var(--fondo);
+  border-style: dashed;
+}
+
+.tarjeta-deshabilitada h3 {
+  color: var(--texto-suave);
+}
+
+/* Ocupa el lugar del botón: la descripción de arriba es la que se estira. */
+.tarjeta .estado-tarjeta {
+  flex: none;
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .datos {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .datos dd {
+    margin-bottom: 0.6rem;
+  }
+}
+
+/* Grupo de casillas: el fieldset no agrega recuadro propio dentro de la tarjeta. */
+.grupo-casillas {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.grupo-casillas legend {
+  padding: 0;
+  font-weight: 600;
+}
+
+.grupo-casillas p {
+  margin: 0;
+}
+
+.casilla {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.casilla input {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.2rem 0 0;
+  accent-color: var(--acento);
+}
+
+.casilla input:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+/* Grupo con error: el contorno no ocupa lugar, así el formulario no se mueve. */
+.grupo-casillas-error {
+  outline: 2px solid var(--texto);
+  outline-offset: 0.5rem;
+  border-radius: 2px;
+}
